@@ -1,15 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoginWrapper from '@components/loginWrapper';
 import styles from '@styles/pages/Login.module.scss';
-import LoginModal from './loginModal';
+import { usePrivy } from '@privy-io/react-auth';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const LoginPage: React.FC = () => {
     const { t } = useTranslation();
-    const [isModalOpen, setModalOpen] = useState(false);
+    const { login, user, authenticated } = usePrivy();
+    const router = useRouter();
 
-    const openModal = () => setModalOpen(true);
-    const closeModal = () => setModalOpen(false);
+    const handleLogin = async () => {
+        try {
+            await login();
+        } catch (error) {
+            console.error('Error during login:', error);
+            alert('Error: Unable to complete the login process. Please try again.');
+        }
+    };
+
+    useEffect(() => {
+        const checkUserStatus = async () => {
+            if (authenticated && user?.email) {
+                const email = user.email.address;
+
+                try {
+                    const response = await axios.post('/api/login/check-user', { email });
+
+                    if (response.data.exists) {
+                        await router.push('/home');
+                    } else {
+                        await router.push('/login/signupSuccess');
+                    }
+                } catch (error) {
+                    console.error('Error checking user status:', error);
+                }
+            }
+        };
+
+        checkUserStatus();
+    }, [authenticated, user, router]);
 
     return (
         <LoginWrapper>
@@ -19,12 +50,10 @@ const LoginPage: React.FC = () => {
             </div>
 
             <div className={styles.buttonGroup}>
-                <button className={styles.signInButton} onClick={openModal}>
+                <button className={styles.signInButton} onClick={handleLogin}>
                     {t('login.signInButton')}
                 </button>
             </div>
-
-            <LoginModal isOpen={isModalOpen} onClose={closeModal} />
         </LoginWrapper>
     );
 };

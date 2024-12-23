@@ -1,26 +1,38 @@
 import type { AppProps } from "next/app";
 import "@styles/styles.scss";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { PrivyProvider, usePrivy } from "@privy-io/react-auth";
 import AppProvider from "../context";
 import '../i18n';
 
+function AuthHandler({ children }: { children: React.ReactNode }) {
+    const { authenticated } = usePrivy();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (authenticated) {
+            if (router.pathname === "/login") {
+                router.push("/home");
+            }
+        } else {
+            if (router.pathname !== "/login") {
+                router.push("/login");
+            }
+        }
+    }, [authenticated, router]);
+
+    return <>{children}</>;
+}
 
 export default function App({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-  const [visible, setVisible] = useState<boolean>(false);
-  useEffect(() => {
-    if (router.pathname === "/login") {
-      setVisible(false);
-    } else {
-      setVisible(true);
-    }
-  }, [router.pathname]);
-  return (
-    <>
-      <AppProvider>
-        <Component {...pageProps} />
-      </AppProvider>
-    </>
-  );
+    return (
+        <PrivyProvider appId="cm513pd0700zp3etfiup208us">
+            <AppProvider>
+                <AuthHandler>
+                    <Component {...pageProps} />
+                </AuthHandler>
+            </AppProvider>
+        </PrivyProvider>
+    );
 }

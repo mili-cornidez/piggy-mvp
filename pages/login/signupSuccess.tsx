@@ -2,9 +2,15 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import LoginWrapper from '@components/loginWrapper';
 import styles from '@styles/pages/LoginSuccess.module.scss';
+import { useRouter } from 'next/router';
 
-const LoginSuccess: React.FC = () => {
+const SignupSuccess: React.FC = () => {
     const { t } = useTranslation();
+    const router = useRouter();
+
+    const handleFinish = () => {
+        router.push('/home');
+    };
 
     return (
         <LoginWrapper>
@@ -15,9 +21,11 @@ const LoginSuccess: React.FC = () => {
                 </p>
             </div>
 
-            <button className={styles.finishButton}>{t('loginSuccess.finishButton')}</button>
+            <button className={styles.finishButton} onClick={handleFinish}>
+                {t('loginSuccess.finishButton')}
+            </button>
         </LoginWrapper>
     );
 };
 
-export default LoginSuccess;
+export default SignupSuccess;

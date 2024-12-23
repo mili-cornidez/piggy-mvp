@@ -1,25 +1,3 @@
-.onboardingContainer {
-  width: 100%;
-  height: 100vh;
-  background: #ffffff;
-  border-radius: 12px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 50%;
-    background: #7c3aed;
-    z-index: 0;
-  }
-}
-
 .header {
   background: #7c3aed;
   width: 100%;
@@ -29,24 +7,8 @@
   z-index: 2;
 }
 
-.backgroundContainer {
-  position: relative;
-  width: 100%;
-  height: 50%;
-  background: #7c3aed;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, rgba(124, 58, 237, 0) 0%, #7c3aed 100%);
-  }
-}
-
 .waveBackground {
-  @extend .backgroundContainer;
+  @extend .backgroundContainer !optional;
   background: center / 200% no-repeat;
   display: flex;
   align-items: center;
