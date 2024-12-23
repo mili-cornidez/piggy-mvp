@@ -1,0 +1,140 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContainer {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 90%;
+  max-width: 400px;
+  padding: 24px;
+  position: relative;
+  display: flex; /* Agrega flex para alinear verticalmente */
+  flex-direction: column;
+  min-height: 300px; /* Establece una altura mínima */
+  justify-content: space-between; /* Distribuye contenido si hay espacio */
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.logoSection {
+  display: flex; /* Flexbox para alinear horizontalmente */
+  align-items: center; /* Alinea verticalmente en el centro */
+  gap: 8px; /* Espacio entre la imagen y el texto */
+  justify-content: center; /* Centra el contenido horizontalmente */
+
+  .logo {
+    width: 32px; /* Tamaño ajustado de la imagen */
+    height: 32px;
+    object-fit: contain; /* Asegura que la imagen no se deforme */
+  }
+
+  h2 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 30px; /* Ajusta el tamaño del texto */
+    font-weight: 600;
+    color: #000000;
+    margin: 0; /* Elimina márgenes predeterminados */
+  }
+}
+
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 8px 12px;
+  gap: 8px;
+}
+
+.emailIcon {
+  color: #666666;
+  font-size: 20px;
+}
+
+.emailInput {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  padding: 8px;
+  outline: none;
+
+  &::placeholder {
+    color: #666666;
+  }
+}
+
+.submitButton {
+  background: transparent;
+  border: none;
+  color: #7C3AED;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.googleButton, .walletButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  background: #ffffff;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #262626;
+  cursor: pointer;
+}
+
+.googleIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.walletButton {
+  position: relative;
+
+  .arrowIcon {
+    position: absolute;
+    right: 16px;
+  }
+}
+
+.passkeyButton {
+  background: transparent;
+  border: none;
+  color: #7C3AED;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px;
+}
+

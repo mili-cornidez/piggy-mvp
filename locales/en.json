@@ -1,0 +1,20 @@
+{
+    "login": {
+        "welcomeTitle": "Welcome to Piggy Wallet",
+        "welcomeSubtitle": "Manage savings, invest wisely, and grow together as a family.",
+        "signInButton": "Sign In"
+    },
+    "loginModal": {
+        "title": "Piggy Wallet",
+        "emailPlaceholder": "your@email.com",
+        "submitButton": "Submit",
+        "googleButton": "Google",
+        "walletButton": "Continue with a wallet",
+        "arrowIcon": "→"
+    },
+    "loginSuccess": {
+        "title": "All setup!",
+        "subtitle": "You're now ready to manage savings, make smart investments, and learn about finance with Piggy Wallet.",
+        "finishButton": "Finish"
+    }
+}

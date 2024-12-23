@@ -1,0 +1,61 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+$z-indexes: ("base") !default;
+
+:root {
+  /**
+    States
+  */
+  --success-30: rgba(101, 181, 100, 0.3);
+  --success: #16a34a;
+  --error: #dc2626;
+  --error-hover: #c64c4c7e;
+  --error-25: rgb(217, 163, 163, 0.25);
+  --error-30: rgb(217, 163, 163, 0.3);
+  --error-50: #c64c4c7c;
+  --error-75: var(--black);
+
+  --blue: #597a9a;
+  --blue-hover: #597a9a7e;
+
+  /**
+    Purples
+  */
+  --purple: #7C3AED;
+  --purple-hover: rgba(177, 163, 217, 0.7);
+
+  /**
+    Colors
+  */
+  --airforce-blue: #597a9a;
+  --dusk-blue: #5d6470;
+  --ginger-orange: #c3945a;
+  --grape-purple: #827183;
+  --ice-gray: #b5bcc3;
+  --moss-green: #6d8e6b;
+  --mustard-yellow: #b3a364;
+  --olive-green: #757556;
+  --peppermint-green: #65ac9c;
+  --steel-blue: #66919b;
+  --tea-green: #bcbc93;
+  --wine-red: #986f6f;
+  --bubblegum-pink: #d6a8bd;
+
+  // spacing
+  --spacing-xs: 6px;
+  --spacing-sm: 12px;
+  --spacing-sm-md: 16px;
+  --spacing-md: 20px;
+  --spacing-md-lg: 32px;
+  --spacing-lg: 40px;
+  --spacing-xl: 100px;
+  --spacing-xxl: 150px;
+
+  // radius
+  --border-radius-12: 12px;
+
+  // mesures
+  --modal-max-width: 500px;
+}
