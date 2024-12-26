@@ -1,6 +1,26 @@
-.piggy-wallet {
-  width: 393px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.onboarding {
+  position: relative;
+
+  &.blurred {
+    .content {
+      filter: blur(4px);
+      pointer-events: none;
+      user-select: none;
+    }
+  }
 }
+
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); // Semi-transparent background
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* AddAccountComponent inherits styles directly */

@@ -1,0 +1,121 @@
+
+.popup {
+  background-color: #ffffff;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 12px;
+  padding: 16px 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  .handle {
+    width: 80px;
+    height: 6px;
+    background-color: #d9d9d9;
+    margin: 0 auto 16px;
+    border-radius: 3px;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .header {
+      text-align: center;
+
+      h1 {
+        font-family: 'Fredoka', sans-serif;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 32px;
+        color: #171717;
+        margin-bottom: 8px;
+      }
+
+      p {
+        font-family: 'Quicksand', sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        color: #262626;
+      }
+    }
+
+    .formSection {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .photoUpload {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 16px;
+
+        .photoPlaceholder {
+          position: relative;
+          width: 100px;
+          height: 100px;
+          background-color: #f5f5f5;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .addButton {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(180deg, rgba(160, 122, 247, 1) 0%, rgba(139, 92, 246, 1) 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+      }
+
+      .inputField {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        label {
+          font-family: 'Quicksand', sans-serif;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 24px;
+          color: #1e1e1e;
+        }
+
+        input {
+          padding: 12px 16px;
+          border: 1px solid #d9d9d9;
+          border-radius: 8px;
+          font-family: 'Quicksand', sans-serif;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 24px;
+          color: #b3b3b3;
+        }
+      }
+
+      .submitButton {
+        width: 100%;
+        padding: 12px;
+        background-color: #c5adfb;
+        border: none;
+        border-radius: 8px;
+        font-family: 'Quicksand', sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 24px;
+        color: #f5f5f5;
+        cursor: pointer;
+      }
+    }
+  }
+}
