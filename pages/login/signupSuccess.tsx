@@ -9,7 +9,7 @@ const SignupSuccess: React.FC = () => {
     const router = useRouter();
 
     const handleFinish = () => {
-        router.push('/home');
+        router.push('/onboarding');
     };
 
     return (

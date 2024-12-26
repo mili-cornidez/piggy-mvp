@@ -16,5 +16,26 @@
         "title": "All setup!",
         "subtitle": "You're now ready to manage savings, make smart investments, and learn about finance with Piggy Wallet.",
         "finishButton": "Finish"
+    },
+    "onboarding": {
+        "header": {
+            "totalBalance": "Total Balance",
+            "deposit": "Deposit",
+            "withdraw": "Withdraw",
+            "send": "Send",
+            "addAccount": "Add Account",
+            "toggleBalance": "Toggle balance"
+        },
+        "welcomeSection": {
+            "welcomeTitle": "Welcome to Piggy Wallet!",
+            "welcomeDescription": "Let’s start building your family’s financial future. Create your first account to begin saving, investing, and managing allowances for your loved ones.",
+            "createAccountButton": "Create My First Account"
+        },
+        "navBar": {
+            "home": "Home",
+            "savings": "Savings",
+            "investments": "Investments",
+            "tasks": "Tasks"
+        }
     }
 }

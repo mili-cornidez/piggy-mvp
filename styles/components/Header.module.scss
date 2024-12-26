@@ -1,0 +1,102 @@
+.header {
+  background: rgba(139, 92, 246, 0.04);
+  backdrop-filter: blur(16px);
+  padding: 56px 0 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.balanceSection {
+  text-align: center;
+}
+
+.balanceHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+
+.balanceLabel {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #535353;
+}
+
+.balanceDisplay {
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  gap: 12px; 
+}
+
+.visibilityToggle {
+  cursor: pointer; 
+}
+
+.amount {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 44px;
+  font-weight: 600;
+  display: flex;
+  align-items: baseline;
+}
+
+.dollars {
+  color: #000000;
+}
+
+.cents {
+  font-size: 16px;
+  margin-left: 2px;
+  color: #000000;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: space-around; 
+  align-items: center;
+  width: 100%; 
+  margin-top: 16px;
+}
+
+.actionItem {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  width: 80px; 
+  flex-shrink: 0; 
+}
+
+.actionButton {
+  background: linear-gradient(180deg, #a07af7 0%, #8b5cf6 100%);
+  border-radius: 20px; 
+  width: 56px; 
+  height: 56px; 
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  margin-bottom: 4px; 
+}
+
+.actionIcon {
+  width: 24px; 
+  height: 24px;
+}
+
+.actionLabel {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #535353;
+  line-height: 1.4; 
+  text-align: center;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+

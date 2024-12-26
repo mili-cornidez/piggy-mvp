@@ -22,14 +22,19 @@ const LoginPage: React.FC = () => {
 
     useEffect(() => {
         const checkUserStatus = async () => {
-            if (authenticated && user?.email) {
-                const email = user.email.address;
-
+            if (authenticated && user?.email?.address && user?.wallet?.address) {
                 try {
-                    const response = await axios.post('/api/login/check-user', { email });
+                    const userData = {
+                        email: user.email.address,
+                        wallet_address: user.wallet.address
+                    };
+                    console.log('Sending user data:', userData); // Debug log
+
+                    const response = await axios.post('/api/login/check-user', userData);
+                    console.log('Response from server:', response.data); // Debug log
 
                     if (response.data.exists) {
-                        await router.push('/home');
+                        await router.push('/onboarding');
                     } else {
                         await router.push('/login/signupSuccess');
                     }
