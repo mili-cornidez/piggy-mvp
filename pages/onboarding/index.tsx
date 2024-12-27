@@ -20,18 +20,16 @@ const Onboarding: React.FC = () => {
 
     return (
         <div className={styles.onboarding}>
-            {/* Content that gets blurred */}
             <div className={`${styles.content} ${isPopupVisible ? styles.blurred : ''}`}>
                 <Header />
                 <WelcomeSection togglePopup={togglePopup} />
                 <NavBar />
             </div>
 
-            {/* Popup Overlay */}
             {isPopupVisible && (
                 <div
                     className={styles.popupOverlay}
-                    onClick={handleClickOutside} // Close popup on overlay click
+                    onClick={handleClickOutside}
                 >
                     <AddAccountComponent />
                 </div>
