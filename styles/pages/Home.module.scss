@@ -1,0 +1,110 @@
+.home {
+  position: relative;
+
+  &.blurred {
+    .content {
+      filter: blur(4px);
+      pointer-events: none;
+      user-select: none;
+    }
+  }
+}
+
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.content {
+  padding: 24px;
+}
+
+.accountsSection {
+  margin-top: 16px;
+  padding: 16px;
+
+  .sectionTitle {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #404040;
+  }
+
+  .accountsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .accountCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    width: 160px;
+    height: 120px;
+    text-align: center;
+
+    &:hover {
+      background: rgba(248, 250, 252, 0.8);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .accountHeader {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      align-self: stretch;
+
+      .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .accountInfo {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+
+      .accountName {
+        font-family: 'Quicksand', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: #404040;
+      }
+
+      .accountBalance {
+        font-family: 'Quicksand', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        color: #171717;
+      }
+    }
+  }
+}

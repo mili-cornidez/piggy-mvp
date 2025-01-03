@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '@styles/components/NavBar.module.scss';
 
 const NavBar: React.FC = () => {
-    const activeItem = 'Home'; // Simula el estado actual activo
+    const activeItem = 'Home';
 
     return (
         <nav className={styles.navbar}>

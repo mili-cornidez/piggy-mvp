@@ -13,7 +13,7 @@ function AuthHandler({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (authenticated) {
             if (router.pathname === "/login") {
-                router.push("/onboarding");
+                router.push("/home");
             }
         } else {
             if (router.pathname !== "/login") {

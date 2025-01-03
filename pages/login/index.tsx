@@ -28,13 +28,13 @@ const LoginPage: React.FC = () => {
                         email: user.email.address,
                         wallet_address: user.wallet.address
                     };
-                    console.log('Sending user data:', userData); // Debug log
+                    console.log('Sending user data:', userData);
 
                     const response = await axios.post('/api/login/check-user', userData);
-                    console.log('Response from server:', response.data); // Debug log
+                    console.log('Response from server:', response.data);
 
                     if (response.data.exists) {
-                        await router.push('/onboarding');
+                        await router.push('/home');
                     } else {
                         await router.push('/login/signupSuccess');
                     }

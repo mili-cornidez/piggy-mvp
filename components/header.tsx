@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import styles from '@styles/components/Header.module.scss';
 import axios from 'axios';
 import { usePrivy } from '@privy-io/react-auth';
+import { useRouter } from 'next/router';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+    togglePopup: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ togglePopup }) => {
     const [isVisible, setIsVisible] = useState(true);
-    const [balance, setBalance] = useState({ dollars: '0', cents: '00' })
+    const [balance, setBalance] = useState({ dollars: '0', cents: '00' });
     const [loading, setLoading] = useState(true);
     const { user, login, ready, logout } = usePrivy();
+    const router = useRouter(); // Para redirigir
 
     const createOrUpdateUser = async () => {
         if (user?.email?.address) {
@@ -32,8 +38,10 @@ const Header: React.FC = () => {
                 throw new Error('User ID not found');
             }
 
-            console.log('Fetching balance for:', user.id);
-            const response = await axios.get(`/api/user/balance/${encodeURIComponent(user.id)}`);
+            const walletAddress = user.id;
+            console.log('Fetching balance for:', walletAddress);
+
+            const response = await axios.get(`/api/user/${encodeURIComponent(walletAddress)}/balance`);
             console.log('Balance response:', response.data);
 
             const balance = response.data.balance;
@@ -100,7 +108,11 @@ const Header: React.FC = () => {
 
             <div className={styles.actionButtons}>
                 {['Deposit', 'Withdraw', 'Send', 'Add Account'].map((action, index) => (
-                    <div className={styles.actionItem} key={index}>
+                    <div
+                        className={styles.actionItem}
+                        key={index}
+                        onClick={togglePopup}
+                    >
                         <div className={styles.actionButton}>
                             <img
                                 src={`/icons/${action.toLowerCase()}-icon.svg`}
@@ -115,7 +127,7 @@ const Header: React.FC = () => {
             <div
                 className={styles.actionItem}
                 onClick={logout}
-                style={{cursor: 'pointer'}}
+                style={{ cursor: 'pointer' }}
             >
                 <span className={styles.actionLabel}>Logout</span>
             </div>

@@ -10,7 +10,7 @@ interface LoginWrapperProps {
 
 const LoginWrapper: React.FC<LoginWrapperProps> = ({ children }) => {
     return (
-        <div className={styles.onboardingContainer}>
+        <div className={styles.homeContainer}>
             <div className={styles.backgroundContainer}>
                 <Image
                     src={bgLogin}

@@ -17,7 +17,7 @@
         "subtitle": "You're now ready to manage savings, make smart investments, and learn about finance with Piggy Wallet.",
         "finishButton": "Finish"
     },
-    "onboarding": {
+    "home": {
         "header": {
             "totalBalance": "Total Balance",
             "deposit": "Deposit",
@@ -36,6 +36,17 @@
             "savings": "Savings",
             "investments": "Investments",
             "tasks": "Tasks"
+        },
+        "addAccount": {
+            "header": "Add Account",
+            "description": "Enter the new account holder's details to create the account.",
+            "namePlaceholder": "John",
+            "birthdatePlaceholder": "DD/MM/YYYY",
+            "emailPlaceholder": "john@example.com",
+            "submitButton": "Add Account",
+            "successTitle": "All set up!",
+            "successDescription": "We sent an email to the new account holder with a link to access their piggy wallet.",
+            "successButton": "Got it"
         }
     }
 }
