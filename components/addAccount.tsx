@@ -4,10 +4,11 @@ import { useRouter } from 'next/router';
 import { usePrivy } from '@privy-io/react-auth';
 
 interface AddAccountProps {
-    onSuccess: () => void;
+    onClose: () => void;
 }
 
-const AddAccount: React.FC<AddAccountProps> = ({ onSuccess }) => {
+const AddAccount: React.FC<AddAccountProps> = ({ onClose }) => {
+    const [isClosing, setIsClosing] = useState(false);
     const [isSuccessVisible, setIsSuccessVisible] = useState(false);
     const [formData, setFormData] = useState({ name: '', birthdate: '', email: '' });
     const [errors, setErrors] = useState({ name: '', birthdate: '', email: '' });
@@ -41,7 +42,6 @@ const AddAccount: React.FC<AddAccountProps> = ({ onSuccess }) => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
-
         setFormData((prevData) => ({
             ...prevData,
             [id]: value,
@@ -51,9 +51,7 @@ const AddAccount: React.FC<AddAccountProps> = ({ onSuccess }) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!validateFields()) {
-            return;
-        }
+        if (!validateFields()) return;
 
         const walletAddress = user?.id || '';
         const parentEmail = user?.email?.address || '';
@@ -67,17 +65,14 @@ const AddAccount: React.FC<AddAccountProps> = ({ onSuccess }) => {
             const response = await fetch(`/api/user/${encodeURIComponent(walletAddress)}/add-child`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    parentEmail,
-                    childData: { ...formData, wallet_balance: 0 },
-                }),
+                body: JSON.stringify({ parentEmail, childData: { ...formData, wallet_balance: 0 } }),
             });
 
             if (!response.ok) {
                 throw new Error('Failed to add child account');
             }
 
-            onSuccess();
+            setIsSuccessVisible(true);
         } catch (error) {
             console.error('Error adding account:', error);
         }
@@ -87,67 +82,53 @@ const AddAccount: React.FC<AddAccountProps> = ({ onSuccess }) => {
         router.push('/home');
     };
 
+    const handleClose = () => {
+        setIsClosing(true);
+        setTimeout(onClose, 200);
+    };
 
     return (
-        <div className={styles.popup}>
-            {!isSuccessVisible ? (
-                <div className={styles.content}>
-                    <div className={styles.header}>
-                        <h1>Add Account</h1>
+        <div className={styles.overlay} onClick={handleClose}>
+            <div className={`${styles.popup} ${isClosing ? styles.popupClosing : ''}`}
+                 onClick={(e) => e.stopPropagation()}>
+                {!isSuccessVisible ? (
+                    <div className={styles.content}>
+                        <h2 className={styles.title}>Add Account</h2>
                         <p>Enter the new account holder's details to create the account.</p>
-                    </div>
-                    <div className={styles.formSection}>
+
                         <form onSubmit={handleSubmit}>
                             <div className={styles.inputField}>
                                 <label htmlFor="name">Name</label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    value={formData.name}
-                                    onChange={handleInputChange}
-                                    placeholder="John"
-                                />
+                                <input type="text" id="name" value={formData.name} onChange={handleInputChange}
+                                       placeholder="John"/>
                                 {errors.name && <span className={styles.error}>{errors.name}</span>}
                             </div>
+
                             <div className={styles.inputField}>
                                 <label htmlFor="birthdate">Birthdate</label>
-                                <input
-                                    type="text"
-                                    id="birthdate"
-                                    value={formData.birthdate}
-                                    onChange={handleInputChange}
-                                    placeholder="DD/MM/YYYY"
-                                />
-                                {errors.birthdate && (
-                                    <span className={styles.error}>{errors.birthdate}</span>
-                                )}
+                                <input type="text" id="birthdate" value={formData.birthdate}
+                                       onChange={handleInputChange} placeholder="DD/MM/YYYY"/>
+                                {errors.birthdate && <span className={styles.error}>{errors.birthdate}</span>}
                             </div>
+
                             <div className={styles.inputField}>
                                 <label htmlFor="email">Email</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    value={formData.email}
-                                    onChange={handleInputChange}
-                                    placeholder="john@example.com"
-                                />
+                                <input type="email" id="email" value={formData.email} onChange={handleInputChange}
+                                       placeholder="john@example.com"/>
                                 {errors.email && <span className={styles.error}>{errors.email}</span>}
                             </div>
-                            <button type="submit" className={styles.submitButton}>
-                                Add Account
-                            </button>
+
+                            <button type="submit" className={styles.submitButton}>Add Account</button>
                         </form>
                     </div>
-                </div>
-            ) : (
-                <div className={styles.successMessage}>
-                    <h1>All set up!</h1>
-                    <p>We sent an email to the new account holder with a link to access their piggy wallet.</p>
-                    <button onClick={handleSuccessOk} className={styles.submitButton}>
-                        Got it
-                    </button>
-                </div>
-            )}
+                ) : (
+                    <div className={styles.successMessage}>
+                        <h1>All set up!</h1>
+                        <p>We sent an email to the new account holder with a link to access their piggy wallet.</p>
+                        <button onClick={handleSuccessOk} className={styles.submitButton}>Got it</button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

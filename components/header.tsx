@@ -5,15 +5,17 @@ import { usePrivy } from '@privy-io/react-auth';
 import { useRouter } from 'next/router';
 
 interface HeaderProps {
-    togglePopup: () => void;
+    toggleAddAccountPopup: () => void;
+    toggleDepositPopup: () => void;
+    toggleWithdrawPopup: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ togglePopup }) => {
+const Header: React.FC<HeaderProps> = ({ toggleAddAccountPopup, toggleDepositPopup, toggleWithdrawPopup }) => {
     const [isVisible, setIsVisible] = useState(true);
     const [balance, setBalance] = useState({ dollars: '0', cents: '00' });
     const [loading, setLoading] = useState(true);
     const { user, login, ready, logout } = usePrivy();
-    const router = useRouter(); // Para redirigir
+    const router = useRouter();
 
     const createOrUpdateUser = async () => {
         if (user?.email?.address) {
@@ -103,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({ togglePopup }) => {
                         />
                     </div>
                 </div>
-                {loading && <div className={styles.loading}>Loading...</div>} {/* Muestra un indicador de carga */}
+                {loading && <div className={styles.loading}>Loading...</div>}
             </div>
 
             <div className={styles.actionButtons}>
@@ -111,7 +113,15 @@ const Header: React.FC<HeaderProps> = ({ togglePopup }) => {
                     <div
                         className={styles.actionItem}
                         key={index}
-                        onClick={togglePopup}
+                        onClick={
+                            action === 'Deposit'
+                                ? toggleDepositPopup
+                                : action === 'Withdraw'
+                                    ? toggleWithdrawPopup
+                                    : action === 'Add Account'
+                                        ? toggleAddAccountPopup
+                                        : undefined
+                        }
                     >
                         <div className={styles.actionButton}>
                             <img
@@ -127,7 +137,7 @@ const Header: React.FC<HeaderProps> = ({ togglePopup }) => {
             <div
                 className={styles.actionItem}
                 onClick={logout}
-                style={{ cursor: 'pointer' }}
+                style={{cursor: 'pointer'}}
             >
                 <span className={styles.actionLabel}>Logout</span>
             </div>

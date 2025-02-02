@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+
   async redirects() {
     return [
       {
@@ -10,17 +11,15 @@ const nextConfig = {
       },
     ];
   },
-};
 
-module.exports = nextConfig;
-
-module.exports = {
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
-        destination: 'http://localhost:3001/api/:path*',
+        source: "/api/:path*",
+        destination: "https://piggy-mvp-back-production.up.railway.app/api/:path*",
       },
     ];
   },
 };
+
+module.exports = nextConfig;

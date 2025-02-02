@@ -2,24 +2,30 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '@components/navBar';
 import Header from '@components/header';
 import WelcomeSection from '@components/welcomeSection';
-import AddAccountComponent from '@components/addAccount';
+import AddAccountPopup from '@components/addAccount';
+import DepositPopup from '@components/deposit';
+import WithdrawPopup from '@components/withdraw';
 import { usePrivy } from '@privy-io/react-auth';
 import styles from '@styles/pages/Home.module.scss';
 
 const Home: React.FC = () => {
-    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [activePopup, setActivePopup] = useState<'addAccount' | 'deposit' | 'withdraw' | null>(null);
     const [childAccounts, setChildAccounts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     const { user, authenticated } = usePrivy();
 
-    const togglePopup = (forceState?: boolean) => {
-        setIsPopupVisible(forceState ?? !isPopupVisible);
+    const openPopup = (popup: 'addAccount' | 'deposit' | 'withdraw') => {
+        setActivePopup(popup);
+    };
+
+    const closePopup = () => {
+        setActivePopup(null);
     };
 
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
-        if ((event.target as HTMLDivElement).classList.contains(styles.popupOverlay)) {
-            setIsPopupVisible(false);
+        if (event.target === event.currentTarget) {
+            closePopup();
         }
     };
 
@@ -54,14 +60,18 @@ const Home: React.FC = () => {
     }, [authenticated, user]);
 
     const handleAddAccountSuccess = () => {
-        togglePopup(false);
+        closePopup();
         fetchChildAccounts();
     };
 
     return (
         <div className={styles.home}>
-            <div className={`${styles.content} ${isPopupVisible ? styles.blurred : ''}`}>
-                <Header togglePopup={() => togglePopup(true)} />
+            <div className={`${styles.content} ${activePopup ? styles.blurred : ''}`}>
+                <Header
+                    toggleAddAccountPopup={() => openPopup('addAccount')}
+                    toggleDepositPopup={() => openPopup('deposit')}
+                    toggleWithdrawPopup={() => openPopup('withdraw')}
+                />
                 {loading ? (
                     <p className={styles.loadingMessage}>Loading...</p>
                 ) : childAccounts.length > 0 ? (
@@ -88,17 +98,16 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                 ) : (
-                    <WelcomeSection togglePopup={() => togglePopup(true)} />
+                    <WelcomeSection togglePopup={() => openPopup('addAccount')} />
                 )}
                 <NavBar />
             </div>
 
-            {isPopupVisible && (
-                <div
-                    className={styles.popupOverlay}
-                    onClick={handleClickOutside}
-                >
-                    <AddAccountComponent onSuccess={handleAddAccountSuccess} />
+            {activePopup && (
+                <div className={styles.popupOverlay} onClick={handleClickOutside}>
+                    {activePopup === 'addAccount' && <AddAccountPopup onClose={closePopup} />}
+                    {activePopup === 'deposit' && <DepositPopup onClose={closePopup} />}
+                    {activePopup === 'withdraw' && <WithdrawPopup onClose={closePopup} />}
                 </div>
             )}
         </div>
