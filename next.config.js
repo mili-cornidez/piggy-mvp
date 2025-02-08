@@ -16,7 +16,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://piggy-mvp-back-production.up.railway.app/api/:path*",
+        destination: "https://localhost:3001/api/:path*",
       },
     ];
   },

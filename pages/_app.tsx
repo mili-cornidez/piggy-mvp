@@ -1,53 +1,54 @@
 import type { AppProps } from "next/app";
 import "@styles/styles.scss";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-//import { PrivyProvider, usePrivy } from "@privy-io/react-auth";
+import { useEffect, useState } from "react";
+import { PrivyProvider, usePrivy } from "@privy-io/react-auth";
 import AppProvider from "../context";
 import '../i18n';
 
+const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
+
 function AuthHandler({ children }: { children: React.ReactNode }) {
-    //const { authenticated } = usePrivy();
+    const [isClient, setIsClient] = useState(false);
+    const { authenticated } = usePrivy();
     const router = useRouter();
 
-    /*
     useEffect(() => {
-        if (authenticated) {
-            if (router.pathname === "/login") {
-                router.push("/home");
-            }
-        } else {
-            if (router.pathname !== "/login") {
-                router.push("/login");
-            }
-        }
-    }, [authenticated, router]);
-    */
+        setIsClient(true);
+    }, []);
 
     useEffect(() => {
-        if (router.pathname === "/login") {
-            router.push("/home");
+        if (isClient) {
+            if (authenticated) {
+                if (router.pathname === "/login") {
+                    router.push("/home");
+                }
+            } else {
+                if (router.pathname !== "/login") {
+                    router.push("/login");
+                }
+            }
         }
-    }, [router]);
+    }, [authenticated, router, isClient]);
+
+    if (!isClient) return null;
 
     return <>{children}</>;
 }
 
 export default function App({ Component, pageProps }: AppProps) {
+    if (!PRIVY_APP_ID) {
+        console.error("PRIVY_APP_ID is missing");
+        return null;
+    }
+
     return (
-        /*
-        <PrivyProvider appId="cm513pd0700zp3etfiup208us">
+        <PrivyProvider appId={PRIVY_APP_ID}>
             <AppProvider>
                 <AuthHandler>
                     <Component {...pageProps} />
                 </AuthHandler>
             </AppProvider>
         </PrivyProvider>
-         */
-        <AppProvider>
-            <AuthHandler>
-                <Component {...pageProps} />
-            </AuthHandler>
-        </AppProvider>
     );
 }

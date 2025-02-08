@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '@styles/components/AddAccount.module.scss';
 import { useRouter } from 'next/router';
 import { usePrivy } from '@privy-io/react-auth';
@@ -12,8 +12,17 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose }) => {
     const [isSuccessVisible, setIsSuccessVisible] = useState(false);
     const [formData, setFormData] = useState({ name: '', birthdate: '', email: '' });
     const [errors, setErrors] = useState({ name: '', birthdate: '', email: '' });
+    const [isClient, setIsClient] = useState(false);
     const router = useRouter();
+    const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
     const { user } = usePrivy();
+
+    if (!isClient) return null;
 
     const validateFields = (): boolean => {
         let isValid = true;
@@ -42,6 +51,28 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose }) => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
+
+        if (id === 'birthdate') {
+            let newValue = value.replace(/\D/g, '');
+
+            if (newValue.length > 2) {
+                newValue = `${newValue.slice(0, 2)}/${newValue.slice(2)}`;
+            }
+            if (newValue.length > 5) {
+                newValue = `${newValue.slice(0, 5)}/${newValue.slice(5)}`;
+            }
+
+            if (newValue.length > 10) {
+                newValue = newValue.slice(0, 10);
+            }
+
+            setFormData((prevData) => ({
+                ...prevData,
+                [id]: newValue,
+            }));
+            return;
+        }
+
         setFormData((prevData) => ({
             ...prevData,
             [id]: value,
@@ -50,26 +81,25 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose }) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
         if (!validateFields()) return;
 
-        const walletAddress = user?.id || '';
-        const parentEmail = user?.email?.address || '';
-
-        if (!walletAddress || !parentEmail) {
-            console.error('User wallet address or email is missing');
+        if (!user?.id || !user?.email?.address) {
+            console.error("No wallet address or email found for user.");
             return;
         }
 
         try {
-            const response = await fetch(`/api/user/${encodeURIComponent(walletAddress)}/add-child`, {
+            const walletAddress = user.id;
+            const parentEmail = user.email.address; // Ahora TypeScript sabe que existe
+
+            const response = await fetch(`${BACKEND_URL}/api/user/${encodeURIComponent(walletAddress)}/add-child`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ parentEmail, childData: { ...formData, wallet_balance: 0 } }),
+                body: JSON.stringify({ parentEmail, childData: formData }),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to add child account');
+                throw new Error(`Failed to add child account (Status: ${response.status})`);
             }
 
             setIsSuccessVisible(true);
@@ -79,7 +109,15 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose }) => {
     };
 
     const handleSuccessOk = () => {
-        router.push('/home');
+
+        onClose();
+
+        setTimeout(() => {
+            if (typeof window !== "undefined") {
+                const event = new Event("refreshChildAccounts");
+                window.dispatchEvent(event);
+            }
+        }, 300);
     };
 
     const handleClose = () => {

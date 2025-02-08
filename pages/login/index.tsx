@@ -11,41 +11,40 @@ const LoginPage: React.FC = () => {
     const { login, user, authenticated } = usePrivy();
     const router = useRouter();
 
+    useEffect(() => {
+        if (authenticated) {
+            router.push("/home");
+        }
+    }, [authenticated, router]);
+
     const handleLogin = async () => {
         try {
             await login();
+
+            if (!user?.email?.address || !user?.wallet?.address) {
+                throw new Error('User authentication data is incomplete.');
+            }
+
+            const userData = {
+                email: user.email.address,
+                wallet_address: user.wallet.address
+            };
+
+            const response = await axios.post('/api/login', userData);
+
+            if (response.data.exists) {
+                await router.push('/home');
+            } else {
+                await router.push('/login/signupSuccess');
+            }
+
         } catch (error) {
-            console.error('Error during login:', error);
+            console.error("Error during login:", error);
             alert('Error: Unable to complete the login process. Please try again.');
         }
     };
 
-    useEffect(() => {
-        const checkUserStatus = async () => {
-            if (authenticated && user?.email?.address && user?.wallet?.address) {
-                try {
-                    const userData = {
-                        email: user.email.address,
-                        wallet_address: user.wallet.address
-                    };
-                    console.log('Sending user data:', userData);
-
-                    const response = await axios.post('/api/login/check-user', userData);
-                    console.log('Response from server:', response.data);
-
-                    if (response.data.exists) {
-                        await router.push('/home');
-                    } else {
-                        await router.push('/login/signupSuccess');
-                    }
-                } catch (error) {
-                    console.error('Error checking user status:', error);
-                }
-            }
-        };
-
-        checkUserStatus();
-    }, [authenticated, user, router]);
+    if (authenticated) return null;
 
     return (
         <LoginWrapper>
@@ -55,7 +54,7 @@ const LoginPage: React.FC = () => {
             </div>
 
             <div className={styles.buttonGroup}>
-                <button className={styles.signInButton} onClick={handleLogin}>
+                <button className={styles.signInButton} onClick={login}>
                     {t('login.signInButton')}
                 </button>
             </div>
