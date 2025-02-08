@@ -124,10 +124,11 @@ const Home: React.FC = () => {
                         <h2 className={styles.sectionTitle}>Your Accounts</h2>
                         <div className={styles.accountsList}>
                             {childAccounts.map((account, index) => (
-                                <div key={index} className={styles.accountCard}>
+                                <div key={index} className={styles.accountCard}
+                                     style={{marginRight: index === childAccounts.length - 1 ? "0px" : "12px"}}>
                                     <div className={styles.accountHeader}>
                                         <div className={styles.avatar}>
-                                            <img src="/images/default-avatar.jpg" alt={account.name} />
+                                            <img src="/images/default-avatar.jpg" alt={account.name}/>
                                         </div>
                                         <div className={styles.accountInfo}>
                                             <span className={styles.accountName}>
@@ -143,9 +144,9 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                 ) : (
-                    <WelcomeSection togglePopup={() => openPopup('addAccount')} />
+                    <WelcomeSection togglePopup={() => openPopup('addAccount')}/>
                 )}
-                <NavBar />
+                <NavBar/>
             </div>
 
             {activePopup && (

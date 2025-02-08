@@ -1,5 +1,8 @@
 .home {
   position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 
   &.blurred {
     .content {
@@ -41,11 +44,20 @@
 
   .accountsList {
     display: flex;
-    flex-wrap: wrap;
     gap: 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
   }
 
   .accountCard {
+    flex: 0 0 auto;
+    width: 160px;
+    height: 120px;
+    scroll-snap-align: start;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -55,8 +67,6 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     padding: 16px;
-    width: 160px;
-    height: 120px;
     text-align: center;
 
     &:hover {
